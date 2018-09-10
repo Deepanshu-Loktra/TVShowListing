@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TVShowApp</string>
+    <string name="tvshow_genre"><b>Genre:</b> Action</string>
+</resources>
