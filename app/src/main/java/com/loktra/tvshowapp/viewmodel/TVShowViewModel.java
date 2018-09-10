@@ -18,9 +18,6 @@ public class TVShowViewModel extends ViewModel{
     public LiveData<Resource<ArrayList<TVShowResponse>>> fetchTVShowDataFromApi() {
         return Repository.getServerTVShowResponse();
     }
-//    private void test(){
-//        fetchTVShowDataFromApi().
-//    }
 
     public LiveData<ArrayList<TVShowResponse>> fetchTVShowDataFromLocal() {
         return Repository.getLocalTVShowResponse();

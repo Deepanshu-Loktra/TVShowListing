@@ -43,7 +43,7 @@ public class TVShowResponse {
         return "TVShowResponse{" +
                 "id=" + id +
                 ", tvShowName=" + tvShowName +
-                ", genre" + Arrays.toString(new List[]{genres}) +
+                ", language=" + language +
                 ", rating=" + rating.average +
                 ", posterImage=" + posterImage.original +
                 '}';
