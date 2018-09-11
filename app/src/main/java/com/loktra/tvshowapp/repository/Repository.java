@@ -24,16 +24,7 @@ public class Repository {
 
     private static final String TAG = Repository.class.getSimpleName();
 
-//    @WorkerThread
-//    public static void saveTVShowResponse(@NonNull TVShowResponse tvShow) {
-//
-//        Type type = new TypeToken<TVShowResponse>(){}.getType();
-//        SharedPrefUtil.saveStringToPreferences(SharedPrefConstants.TVSHOW_RESPONSE, GsonHelper.getInstance().toJson(tvShow, type));
-//        Log.d(TAG, "Saving home response to db");
-//    }
-
-
-    @Nullable
+    // Getting Local Tv Show Data From Shared Preference
     public static LiveData<ArrayList<TVShowResponse>> getLocalTVShowResponse(){
         Type type = new TypeToken<ArrayList<TVShowResponse>>(){}.getType();
         String json = SharedPrefUtil.getStringFromPreferences(SharedPrefConstants.TVSHOW_RESPONSE);
@@ -49,10 +40,9 @@ public class Repository {
         return tvShowResponseLD;
     }
 
+    // Fetching Tv Show Data From Api
     public static LiveData<Resource<ArrayList<TVShowResponse>>> getServerTVShowResponse(){
         Log.d(TAG,"Making TVShow APi Call");
-
-//        String timeZone = AppUtils.getTimeZoneString();
 
         Uri builtUri = Uri.parse(ApiConstants.FETCH_TV_SHOW);
 
@@ -61,11 +51,12 @@ public class Repository {
         return WebService.getInstance().genericGetApiCall(builtUri.toString(), type);
     }
 
+    // Saving Data Fetched From Api To Shared Preference
     @WorkerThread
     public static void saveTVShowResponse(@NonNull ArrayList<TVShowResponse> tvShowResponseList) {
 
         Type type = new TypeToken<ArrayList<TVShowResponse>>(){}.getType();
         SharedPrefUtil.saveStringToPreferences(SharedPrefConstants.TVSHOW_RESPONSE, GsonHelper.getInstance().toJson(tvShowResponseList, type));
-        Log.d(TAG, "Saving home response to db");
+        Log.d(TAG, "Saving Tv Show response to db");
     }
 }

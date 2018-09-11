@@ -16,45 +16,44 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Log.d(getCallingPackage(),"OnCreate");
+        Log.d(getLocalClassName(),"OnCreate");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(getCallingPackage() ,"OnStart " + BaseApplication.application.getPackageName());
+        Log.d(getLocalClassName() ,"OnStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(getCallingPackage(),"OnResume");
+        Log.d(getLocalClassName(),"OnResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(getCallingPackage(),"OnPause");
+        Log.d(getLocalClassName(),"OnPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(getCallingPackage(),"OnStop");
+        Log.d(getLocalClassName(),"OnStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(getCallingPackage(),"OnDestroy");
+        Log.d(getLocalClassName(),"OnDestroy");
     }
 
     public void showProgressDialog(){
+
     }
 
     public void hideProgressDialog(){
 
     }
-
-
 }

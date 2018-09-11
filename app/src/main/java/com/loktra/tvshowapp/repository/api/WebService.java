@@ -40,6 +40,7 @@ public class WebService {
         client = new OkHttpClient();
     }
 
+    // Initiating Webservice
     public static synchronized void init() {
         if (webService == null) {
             webService = new WebService();
@@ -59,6 +60,7 @@ public class WebService {
     }
 
 
+    // Making Api Calls
     public <U> LiveData<Resource<U>> genericGetApiCall(@NonNull String apiUrl,
                                                        final @NonNull Type type) {
         return genericGetApiCall(apiUrl, type, false);
@@ -69,12 +71,15 @@ public class WebService {
                                                        final boolean avoidCrash) {
 
         final ThreadSafeLiveData<Resource<U>> resource = new ThreadSafeLiveData<>();
+
+        //OkHttp Request Build
         final Request request = new Request.Builder().url(apiUrl).get().build();
 
         // Show loading url
         final Resource<U> loading = Resource.loading(null);
         resource.setValue(loading);
 
+        //OkHttp Call
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -86,13 +91,6 @@ public class WebService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-//                    String jsonData = response.body().string();
-                    /*Log.v(TAG, jsonData);
-                    try {
-                        getCurrentDetails(jsonData);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
 
                     String responseJsonString = response.body().string();
 
@@ -111,8 +109,6 @@ public class WebService {
                     } else {
                         serverResponseObject = GsonHelper.getInstance()
                                 .fromJson(responseJsonString, type);
-//                        serverResponseObject = GsonHelper.getInstance()
-//                                .fromJson(responseJsonString, type);
                         res = Resource.success(serverResponseObject);
 
                     }
@@ -127,10 +123,5 @@ public class WebService {
         });
 
         return resource;
-    }
-
-    private void getCurrentDetails(String jsonData) throws JSONException {
-
-//        Log.v(TAG, "From JSON : " + test);
     }
 }

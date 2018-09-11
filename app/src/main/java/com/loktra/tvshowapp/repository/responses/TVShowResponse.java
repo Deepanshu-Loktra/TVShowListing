@@ -45,7 +45,7 @@ public class TVShowResponse {
                 ", tvShowName=" + tvShowName +
                 ", language=" + language +
                 ", rating=" + rating.average +
-                ", posterImage=" + posterImage.original +
+                ", posterImage=" + posterImage.medium +
                 '}';
     }
 
@@ -59,6 +59,10 @@ public class TVShowResponse {
 
     // Tv Poster Image
     public class Image {
+
+        @SerializedName("medium")
+        @Expose
+        public String medium;
 
         @SerializedName("original")
         @Expose

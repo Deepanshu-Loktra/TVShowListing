@@ -15,10 +15,13 @@ public class TVShowViewModel extends ViewModel{
 
     private ArrayList<TVShowResponse> responseList;
 
+
+    // Fetching Data From Api
     public LiveData<Resource<ArrayList<TVShowResponse>>> fetchTVShowDataFromApi() {
         return Repository.getServerTVShowResponse();
     }
 
+    // Fetching Data From Shared Preference
     public LiveData<ArrayList<TVShowResponse>> fetchTVShowDataFromLocal() {
         return Repository.getLocalTVShowResponse();
     }
@@ -27,6 +30,7 @@ public class TVShowViewModel extends ViewModel{
         setResponse(responseList, false);
     }
 
+    // Saving Response From Api To Shared Preference and Setting Response To ResponseList
     public void setResponse(ArrayList<TVShowResponse> responseList, boolean saveResponse) {
 
         if (saveResponse) {

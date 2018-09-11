@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
         loadLocalAndMakeApiCall();
     }
 
+    //Setting Adapter for TVShow Listing Recyclerview
     private void setAdapter() {
         activityMainBinding.tvRecyclerview.setLayoutManager( new GridLayoutManager(this,2));
         activityMainBinding.tvRecyclerview.setHasFixedSize(true);
@@ -42,13 +43,14 @@ public class MainActivity extends BaseActivity {
         activityMainBinding.tvRecyclerview.setAdapter(tvShowAdapter);
     }
 
+
+    //Instantiated Data Binding and View Model
     private void initBinding() {
         tvShowViewModel = ViewModelProviders.of(this).get(TVShowViewModel.class);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-//        activityMainBinding.executePendingBindings();
     }
 
+    //Accessing Local Data And Making Api Call For Updated Data
     private void loadLocalAndMakeApiCall() {
 
         LiveData<ArrayList<TVShowResponse>> tvShowResponse = tvShowViewModel.fetchTVShowDataFromLocal();
@@ -62,12 +64,13 @@ public class MainActivity extends BaseActivity {
         makeTVShowApiCall();
     }
 
+    //Loading Arraylist To Recyclerview Adapter
     private void initiateMain(LiveData<ArrayList<TVShowResponse>> tvShowResponseList) {
         Log.d("Response",tvShowResponseList.toString());
         tvShowAdapter.setTVShowList(tvShowResponseList.getValue());
-        //TO DO when doing binding
     }
 
+    //Doing OkHttp Api Calls
     private void makeTVShowApiCall() {
         tvShowViewModel.fetchTVShowDataFromApi().observe(this, new Observer<Resource<ArrayList<TVShowResponse>>>() {
             @Override
@@ -93,9 +96,8 @@ public class MainActivity extends BaseActivity {
                         ArrayList<TVShowResponse> data = tvShowResponseResource.data;
                         tvShowViewModel.setResponse(data, true);
 
-                        //LogHelper.logInfo(TAG, " Home " + data);
-
                         LiveData<ArrayList<TVShowResponse>> tvShowResponse = tvShowViewModel.fetchTVShowDataFromLocal();
+                        AppUtils.showToast(MainActivity.this, "Data Fetched Successfully");
 
                         if (tvShowResponse != null) {
                             initiateMain(tvShowResponse);
@@ -109,7 +111,7 @@ public class MainActivity extends BaseActivity {
                         Log.d(TAG, "Error Response arrived for home api");
 //                        binding.content.swipeRefresh.setRefreshing(false);
 //                        hideProgressDialog();
-                        //AuAppUtils.showToast(HomeActivity.this, "There was problem in home api");
+                        AppUtils.showToast(MainActivity.this, "There was problem in home api");
                         break;
 
                     case LOADING:

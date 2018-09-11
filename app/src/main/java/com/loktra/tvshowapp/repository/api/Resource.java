@@ -14,15 +14,15 @@ public class Resource<T> {
     @NonNull
     public final String message;
 
-    public int serverCode;
+    private int serverCode;
 
-    public Resource(@NonNull Status status, T data, @NonNull String message) {
+    private Resource(@NonNull Status status, @Nullable T data, @NonNull String message) {
         this.status = status;
         this.data = data;
         this.message = message;
     }
 
-    public Resource(@NonNull Status status, T data, @NonNull String message, int serverCode) {
+    private Resource(@NonNull Status status, @Nullable T data, @NonNull String message, int serverCode) {
         this.status = status;
         this.data = data;
         this.message = message;
