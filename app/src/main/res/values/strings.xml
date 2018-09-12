@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TVShowApp</string>
+    <string name="app_name">TV Show</string>
+    <string name="search_title">Search Title</string>
 </resources>

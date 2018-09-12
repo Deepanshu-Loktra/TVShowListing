@@ -4,19 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.loktra.tvshowapp.base.ThreadSafeLiveData;
-import com.loktra.tvshowapp.repository.responses.GenericResponse;
 import com.loktra.tvshowapp.repository.responses.TVShowResponse;
 import com.loktra.tvshowapp.utils.GsonHelper;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -119,6 +110,7 @@ public class WebService {
                     Resource<U> res = Resource.error("Error occurred", null);
                     resource.setValue(res);
                 }
+
             }
         });
 

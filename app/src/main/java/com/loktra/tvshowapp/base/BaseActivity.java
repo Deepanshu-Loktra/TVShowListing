@@ -6,10 +6,12 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-//    private static final String TAG = BaseActivity.class.getSimpleName();
+    private static final String TAG = BaseActivity.class.getSimpleName();
 
     @CallSuper
     @Override
@@ -49,11 +51,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.d(getLocalClassName(),"OnDestroy");
     }
 
-    public void showProgressDialog(){
-
+    public ProgressBar getProgressBar(){
+        return null;
     }
 
-    public void hideProgressDialog(){
+    public void showProgressbar(){
+        if(getProgressBar() != null){
+            getProgressBar().setVisibility(View.VISIBLE);
+        } else {
+            Log.d(TAG,"Unable To Show Progressbar. Make getprogressBar not null");
+        }
+    }
 
+    public void hideProgressbar(){
+        if(getProgressBar() != null){
+            getProgressBar().setVisibility(View.GONE);
+        } else {
+            Log.d(TAG,"Unable To Hide Progressbar. Make getprogressBar not null");
+        }
     }
 }
