@@ -1,7 +1,6 @@
 package com.loktra.tvshowapp.ui;
 
 import android.app.SearchManager;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -13,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.loktra.tvshowapp.R;
@@ -24,7 +24,6 @@ import com.loktra.tvshowapp.repository.responses.TVShowResponse;
 import com.loktra.tvshowapp.utils.AppUtils;
 import com.loktra.tvshowapp.viewmodel.TVShowViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityWithMerger extends BaseActivity {
@@ -39,7 +38,8 @@ public class MainActivityWithMerger extends BaseActivity {
         super.onCreate(savedInstanceState);
         initBinding();
         setAdapter();
-        loadLocalAndMakeApiCall();
+        fetchData();
+        fetchSearchData();
     }
 
     //Instantiated Data Binding and View Model
@@ -48,36 +48,62 @@ public class MainActivityWithMerger extends BaseActivity {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     }
 
+    //Setting Adapter for TVShow Listing Recyclerview
     private void setAdapter() {
         activityMainBinding.tvRecyclerview.setLayoutManager(new GridLayoutManager(this, 2));
-        activityMainBinding.tvRecyclerview.setHasFixedSize(true); // why?? infinite scroll // tv api fixed that is why it is working
+//        activityMainBinding.tvRecyclerview.setHasFixedSize(true); // why?? infinite scroll // tv api fixed that is why it is working
 
         tvShowAdapter = new TVShowAdapter();
         activityMainBinding.tvRecyclerview.setAdapter(tvShowAdapter);
     }
-    //Setting Adapter for TVShow Listing Recyclerview
 
 
-    //Accessing Local Data And Making Api Call For Updated Data
-    private void loadLocalAndMakeApiCall() {
-        showProgressbar();
+    //Fetching Data
+    private void fetchData() {
 
-        tvShowViewModel.fetch().observe(this, new Observer<List<TVShowResponse>>() {
+        tvShowViewModel.fetch().observe(this, new Observer<Resource<List<TVShowResponse>>>() {
             @Override
-            public void onChanged(@Nullable List<TVShowResponse> tvShowResponseList) {
-
-                if (tvShowResponseList != null) {
-                    initiateMain(tvShowResponseList);
+            public void onChanged(@Nullable Resource<List<TVShowResponse>> tvShowResourceList) {
+                if (tvShowResourceList != null) {
+                    switch (tvShowResourceList.status) {
+                        case LOADING:
+                            showProgressbar();
+                            break;
+                        case ERROR:
+                            Log.d(TAG, "Error Response arrived for merger Live data");
+                            hideProgressbar();
+                            AppUtils.showToast(MainActivityWithMerger.this, "There was problem in Merger Live Data");
+                            break;
+                        case SUCCESS:
+                            hideProgressbar();
+                            List<TVShowResponse> tvShowResponse = tvShowResourceList.data;
+                            if (tvShowResponse != null) {
+                                Log.d(TAG, "Data Fetched Successfully");
+                                initiateMain(tvShowResponse);
+                            } else {
+                                Log.d(TAG, "Error Fetching Data");
+                            }
+                            break;
+                    }
                 } else {
-                    Log.e(TAG, "Null reponse");
+                    Log.d(TAG, "Error Fetching Data");
                 }
+            }
+        });
+    }
+
+    private void fetchSearchData() {
+        tvShowViewModel.getSearchQuery().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                tvShowAdapter.setsearchFilter(s);
             }
         });
     }
 
     //Loading Arraylist To Recyclerview Adapter
     private void initiateMain(List<TVShowResponse> tvShowResponseList) {
-            Log.d("Init main with list : ", tvShowResponseList.toString());
+        Log.d("Init main with list : ", tvShowResponseList.toString());
         tvShowAdapter.setTVShowList(tvShowResponseList);
     }
 
@@ -91,12 +117,9 @@ public class MainActivityWithMerger extends BaseActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main_search, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search_tvshow).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
+        searchView.setQueryHint("Search TV Shows");
+        searchView.setOnQueryTextListener(tvShowViewModel);
         return true;
     }
-
-
 }

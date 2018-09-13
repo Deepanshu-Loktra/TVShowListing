@@ -1,4 +1,4 @@
-package com.loktra.tvshowapp.repository.database.dao.data_convertor;
+package com.loktra.tvshowapp.repository.database.data_convertor;
 
 import android.arch.persistence.room.TypeConverter;
 

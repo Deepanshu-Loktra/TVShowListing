@@ -5,11 +5,10 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
-import com.loktra.tvshowapp.repository.api.Resource;
 import com.loktra.tvshowapp.repository.responses.TVShowResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -23,4 +22,7 @@ public interface TVShowDao {
 
     @Query("SELECT * FROM tvresponse_table")
     LiveData<List<TVShowResponse>> loadTvShowResponse();
+
+    @Update
+    int updateAll(List<TVShowResponse> tvShowResponseList);
 }

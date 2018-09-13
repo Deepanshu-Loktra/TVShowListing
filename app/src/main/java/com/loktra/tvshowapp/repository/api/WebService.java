@@ -12,6 +12,7 @@ import com.loktra.tvshowapp.utils.GsonHelper;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -87,8 +88,8 @@ public class WebService {
 
                     Log.d(TAG, "Response arrived for url : " + call.request() + " response : " + response.code());
 
-                    ArrayList<TVShowResponse> serverResponseObject;
-                    Resource<ArrayList<TVShowResponse>> res;
+                    List<TVShowResponse> serverResponseObject;
+                    Resource<List<TVShowResponse>> res;
 
                     if (avoidCrash) {
                         try {

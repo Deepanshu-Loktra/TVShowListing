@@ -4,21 +4,21 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.loktra.tvshowapp.repository.database.dao.data_convertor.DataConvertor;
+import com.loktra.tvshowapp.repository.database.data_convertor.DataConvertor;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Entity(tableName = "TvResponse_Table")
 public class TVShowResponse {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @SerializedName("id")
+    @Expose
     public int id;
 
 
