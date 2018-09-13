@@ -33,7 +33,6 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
     @Override
     public TVShowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         TvShowItemsBinding tvShowItemsBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.tv_show_items, parent, false);
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tv_show_items,parent,false);
         return new TVShowViewHolder(tvShowItemsBinding);
     }
 
